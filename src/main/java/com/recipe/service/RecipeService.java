@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.recipe.model.Recipe;
 
+import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,22 +35,22 @@ public class RecipeService {
         }
         return returnrecipe;
     }
-    public Recipe deleterecipebyname(String recipe){
-        Recipe deleterecipe=null;
+
+    public Recipe deleterecipebyname(String recipe) {
+        Recipe deleterecipe = null;
         for (int i = 0; i < recipes.size(); i++) {
             if (recipe.equals(recipes.get(i).getName())) {
-                deleterecipe=recipes.remove(i);
+                deleterecipe = recipes.remove(i);
             }
         }
         return deleterecipe;
     }
-    public Recipe editrecipebyname(String recipe){
-        Recipe editrecipe=null;
+
+    public void editrecipebyname(String recipeName, Recipe body) {
         for (int i = 0; i < recipes.size(); i++) {
-            if (recipe.equals(recipes.get(i).getName())) {
-                editrecipe=recipes.remove(i);
+            if (recipeName.equals(recipes.get(i).getName())) {
+                recipes.get(i).setDescription(body.getDescription());
             }
         }
-       return editrecipe;
     }
 }

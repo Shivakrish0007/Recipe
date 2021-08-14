@@ -46,9 +46,9 @@ public class RecipeController {
         return recipe;
     }
     @PutMapping("/recipe")
-    public Recipe editrecipebyname(@RequestParam String recipename){
-        Recipe recipe=recipeService.editrecipebyname(recipename);
-         return recipe;
+    public void editrecipebyname(@RequestParam String recipename, @RequestBody Recipe body){
+     recipeService.editrecipebyname(recipename, body);
+         
      }
     
     

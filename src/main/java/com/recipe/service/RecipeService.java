@@ -1,56 +1,64 @@
 package com.recipe.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import com.recipe.model.Recipe;
+import com.recipe.dto.RecipeDTO;
+import com.recipe.entity.Recipe;
+import com.recipe.repository.RecipeRepository;
 
-import org.springframework.context.annotation.Description;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RecipeService {
+    @Autowired
+    RecipeRepository recipeRepository;
 
-    List<Recipe> recipes = new ArrayList<Recipe>(
-            Arrays.asList(new Recipe("Biryani", "Rice dish"), new Recipe("Roti", "Indian bread")));
-
-    public List<Recipe> getRecepies() {
-
-        return recipes;
-    }
-
-    public Recipe postRecipes(Recipe inputRecipe) {
-        recipes.add(inputRecipe);
-        return recipes.get(recipes.size() - 1);
-    }
-
-    public Recipe getrecipebyname(String recipe) {
-        Recipe returnrecipe = null;
-
-        for (int i = 0; i < recipes.size(); i++) {
-            if (recipe.equals(recipes.get(i).getName())) {
-                returnrecipe = recipes.get(i);
-            }
+    public Iterable<RecipeDTO> getRecepies() {
+        Iterable<Recipe> a=  recipeRepository.findAll();
+        List<RecipeDTO> r = new ArrayList<>();
+    
+        for(Recipe recipe : a){
+            RecipeDTO dto = new RecipeDTO(recipe.getName(), recipe.getDescription());
+            r.add(dto);
         }
-        return returnrecipe;
+        return r;
     }
 
-    public Recipe deleterecipebyname(String recipe) {
-        Recipe deleterecipe = null;
-        for (int i = 0; i < recipes.size(); i++) {
-            if (recipe.equals(recipes.get(i).getName())) {
-                deleterecipe = recipes.remove(i);
-            }
-        }
-        return deleterecipe;
+    public RecipeDTO postRecipes(RecipeDTO inputRecipe) {
+        Recipe r = new Recipe(inputRecipe.getName(), inputRecipe.getDescription());
+        Recipe d = recipeRepository.save(r);
+        return new RecipeDTO(d.getName(), d.getDescription());
     }
 
-    public void editrecipebyname(String recipeName, Recipe body) {
-        for (int i = 0; i < recipes.size(); i++) {
-            if (recipeName.equals(recipes.get(i).getName())) {
-                recipes.get(i).setDescription(body.getDescription());
-            }
+    public RecipeDTO getrecipebyname(String x) {
+        Optional<Recipe> result = recipeRepository.findById(x);
+        if(result.isPresent()){
+            return new RecipeDTO(result.get().getName(), result.get().getDescription());
         }
+        return new RecipeDTO();
+    }
+
+    public void deleterecipebyname(String y) {
+        Optional<Recipe> result = recipeRepository.findById(y);
+
+        if(result.isPresent()){
+         recipeRepository.delete(result.get());
+        }
+    }
+
+    public RecipeDTO editrecipebyname(String recipeName, RecipeDTO body) {
+       Optional<Recipe> result = recipeRepository.findById(recipeName);
+
+        if(result.isPresent()){
+            String a =   result.get().getDescription();
+            a=body.getDescription();
+            result.get().setDescription(a);
+            recipeRepository.save(result.get());
+
+        }
+        return getrecipebyname(recipeName);
     }
 }

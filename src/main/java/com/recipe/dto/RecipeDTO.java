@@ -1,17 +1,15 @@
-package com.recipe.model;
+package com.recipe.dto;
 
-public class Recipe {
+public class RecipeDTO {
     String name;
     String description;
 
-    public Recipe(String name, String description) {
+    public RecipeDTO(String name, String description) {
         this.name = name;
         this.description = description;
     }
-
-    public Recipe() {
+    public RecipeDTO() {
     }
-
     public String getName() {
         return name;
     }
@@ -23,6 +21,5 @@ public class Recipe {
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-    
+    } 
 }

@@ -1,6 +1,6 @@
 package com.recipe;
 
-import com.recipe.model.Recipe;
+import com.recipe.dto.RecipeDTO;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
     @Bean
-    public Recipe recipe() {
-        return new Recipe();
+    public RecipeDTO recipe() {
+        return new RecipeDTO();
     }
 }

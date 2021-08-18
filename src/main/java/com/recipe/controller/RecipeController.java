@@ -1,9 +1,6 @@
 package com.recipe.controller;
 
-import java.util.List;
-import java.util.Arrays;
-
-import com.recipe.model.Recipe;
+import com.recipe.dto.RecipeDTO;
 import com.recipe.service.RecipeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,32 +19,30 @@ public class RecipeController {
     RecipeService recipeService;
 
     @GetMapping("/recipes")
-    public List<Recipe> getRecipe() {
-       List<Recipe> recipes = recipeService.getRecepies();
+    public Iterable<RecipeDTO> getRecipe() {
+       Iterable<RecipeDTO> recipes = recipeService.getRecepies();
        return recipes;
     }
+
     @PostMapping("/recipe")
-    public Recipe postRecipe(@RequestBody Recipe inputRecipe){
-       Recipe recipe=recipeService.postRecipes(inputRecipe);
+    public RecipeDTO postRecipe(@RequestBody RecipeDTO inputRecipe){
+       RecipeDTO recipe = recipeService.postRecipes(inputRecipe);
         return recipe;
     }
 
     @GetMapping("/recipe")
-     public Recipe getrecipebyname(@RequestParam String recipename){
-       Recipe recipe=recipeService.getrecipebyname(recipename);
+     public RecipeDTO getrecipebyname(@RequestParam String recipename){
+       RecipeDTO recipe=recipeService.getrecipebyname(recipename);
         return recipe;
     }
 
      @DeleteMapping("/recipe")
-     public Recipe deleterecipebyname(@RequestParam String recipename){
-       Recipe recipe=recipeService.deleterecipebyname(recipename);
-        return recipe;
+     public void deleterecipebyname(@RequestParam String recipename){
+       recipeService.deleterecipebyname(recipename);
     }
+
     @PutMapping("/recipe")
-    public void editrecipebyname(@RequestParam String recipename, @RequestBody Recipe body){
-     recipeService.editrecipebyname(recipename, body);
-         
-     }
-    
-    
+    public void editrecipebyname(@RequestParam String recipename, @RequestBody RecipeDTO body){
+      recipeService.editrecipebyname(recipename, body);   
+    }
 }

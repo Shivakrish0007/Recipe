@@ -1,4 +1,4 @@
-package com.recipe.model;
+package com.recipe.dto;
 
 public class Greeting {
   private String message;

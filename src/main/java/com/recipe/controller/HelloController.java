@@ -1,6 +1,6 @@
 package com.recipe.controller;
 
-import com.recipe.model.Greeting;
+import com.recipe.dto.Greeting;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
